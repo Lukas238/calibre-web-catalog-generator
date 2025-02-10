@@ -32,11 +32,9 @@ async function main() {
         const parser = new xml2js.Parser();
         const parsedXml = await parser.parseStringPromise(xmlData);
 
-        // Check if there is a remote_ids.json file in the catalog folder
-        const catalogRemoteIdsFilename = catalogFolderPath + '/' + catalogName + '_googleDrive_ids.json';
-
         // Read the googleDriveIds file
-        const catalogRemoteIds = fs.existsSync(catalogRemoteIdsFilename) ? JSON.parse(fs.readFileSync(catalogRemoteIdsFilename, 'utf8')) : false;
+        const gdriveIdsPath = getArgValue('--gdriveids-path') || false;
+        const catalogRemoteIds = gdriveIdsPath && fs.existsSync(gdriveIdsPath) ? JSON.parse(fs.readFileSync(gdriveIdsPath, 'utf8')) : false;
 
 
 
@@ -44,7 +42,7 @@ async function main() {
          * Parse the catalog data
          * **********************
          */
-        const catalogTitle = parsedXml.calibredb['$'].title || 'My Calibre Library';
+        const catalogTitle = parsedXml.calibredb['$'].title || 'My Catalog Library';
 
         // 3. Create dist directory and subdirectory
         const record = parsedXml.calibredb?.record || []; // Use optional chaining

@@ -35,11 +35,11 @@ Optionaly, it can include a download button for the EPUB files stored in a Googl
         > This title will be used in the HTML web page.
 4. Run the `catalog2web.js` script to generate the HTML web page.
     ``` bash
-    node catalog2web.js --catalog-path eBooks238_catalog.xml --web-path eBooks238 --gdrive-ids eBooks238_gdrive_ids.json 
+    node catalog2web.js --catalog-path eBooks238_catalog.xml --web-path eBooks238 --gdriveids-path eBooks238_gdrive_ids.json 
     ```
    - `--catalog-path`: Path to the exported catalog `.xml` file.
    - `--web-path`: Path to the output folder for the generated web site.
-   - `--gdrive-ids`: Optional. Path to the exported Google Drive files IDs `.json` file.
+   - `--gdriveids-path`: Optional. Path to the exported Google Drive files IDs `.json` file.
         > If this path is not provided, the book download button will not be included in the web page.
 5. The generated web page will be in the path you specified on the `--web-path` argument.
 6. Open the `index.html` file in your browser to see the generated web page.
