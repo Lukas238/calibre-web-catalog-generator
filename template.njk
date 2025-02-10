@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>{{catalogTitle}}
+            | Catalog</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+        <style>
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                min-width: 890px;
+                height: 100%;
+                overflow: hidden;
+            }
+            main {
+                overflow-y: auto;
+                height: 100vh;
+            }
+            #books-list {
+                .book {
+                    display: inline-block;
+                    header {
+                        cursor: pointer;
+                    }
+                    img {
+                        min-width: 200px;
+                        max-width: 200px;
+                        min-height: 300px;
+                        max-height: 300px;
+                    }
+                    .book__body {
+                        display: none;
+                    }
+                }
+            }
+            .book__body .book__meta {
+                font-size: 0.8em;
+                label {
+                    font-style: italic;
+                    font-size: 0.8em;
+                }
+            }
+            #book-preview {
+                width: 410px;
+                display: none;
+
+                &.show {
+                    display: block;
+                }
+
+                overflow-y: auto;
+                height: 100vh;
+                .book-preview__content {
+                    width: 400px;
+                    .book {
+                        header {
+                            text-align: center;
+                            margin: 0 auto;
+
+                            img {
+                                min-width: 300px;
+                                min-height: 400px;
+                                max-width: 300px;
+                                max-height: 400px;
+                            }
+                        }
+                    }
+                }
+            }
+        </style>
+    </head>
+    <body class="container-fluid">
+        <div class="row">
+            <main class="col">
+                <h1>{{catalogTitle}}</h1>
+                <div id="search-box">
+                    <div class="input-group mb-3">
+                        <div class="form-control">
+                            <span class="" id="basic-addon1">@</span>
+                            <input type="text" class="d-flex-1" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+
+                </div>
+
+                <section id="books-list" class="row g-1">
+                    {% for book in books %}
+                        <article id="book-{{book.id}}" class="book col-auto p-2" title="{{book.title}}" data-added-timestamp="{{ book.added_timestamp }}" data-authors="{{ book.authors | replace(',', ', ') }}" data-title="{{ book.title }}">
+                            <header>
+                                <img src="{{ book.cover }}" alt="{{ book.title }}" class="d-block mx-auto shadow"/>
+                            </header>
+                            <div class="book__body">
+                                <h1 class="h3 text-center my-3">{{ book.title | safe}}</h1>
+                                <ul class="book__meta list-group">
+                                    <li class="list-group-item">
+                                        <label>Authors:</label>
+                                        <span class="fs-6">{{ book.authors | safe }}</span>
+                                    </li>
+                                    {% if book.isbn %}
+                                        <li class="list-group-item">
+                                            <label>ISBN:</label>
+                                            <a href="https://www.goodreads.com/search?q={{ book.isbn }}" target="_blank">{{ book.isbn }}</a>
+                                        </li>
+                                    {% endif %}
+                                    <li class="list-group-item">
+                                        <label>Added On:</label>
+                                        {{ book.added_date }}
+                                    </li>
+                                </ul>
+                                <div class="text-center m-3">
+
+                                    {% if book.googleDriveId %}
+                                        <div>
+                                            <a href="https://drive.google.com/uc?export=download&id={{ book.googleDriveId }}" class="btn btn-primary mb-3" target="_blank">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewbox="0 0 16 16">
+                                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                                                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+                                                </svg>
+                                                Download EPUB</a>
+                                        </div>
+                                    {% endif %}
+
+                                    <div>
+                                        <small>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-dots" viewbox="0 0 16 16">
+                                                <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                                <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                                            </svg>
+                                            <a href="https://www.goodreads.com/search?q={{ (book.title + ', ' + (book.authors | replace(',', ', ')) ) | urlencode | replace('%20', '+')}}&search_type=books" target="_blank">Search on Goodreads</a>
+                                        </small>
+                                    </div>
+                                </div>
+                                {% if book.summary %}
+                                    <div class="book_description border-top pt-3 ">
+                                        <h2 class="h4 d-none">Summary:</h2>
+                                        {{ book.summary | safe }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </article>
+                    {% endfor %}
+                </section>
+            </main>
+
+            <aside id="book-preview" class="col-auto g-0 show bg-light shadow">
+
+                <h2 class="h4 py-2 px-3">Book preview
+                    <button type="button" class="btn-close fs-6 float-end mt-1" aria-label="Close" data-bs-toggle="collapse" data-bs-target="#book-preview"></button>
+                </h1>
+                <div class="book-preview__content px-3"></div>
+
+            </aside>
+
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            const books = document.querySelectorAll( '.book' );
+            const bookPreview = document.querySelector( '#book-preview' );
+            const bookPreviewConten = document.querySelector( '#book-preview .book-preview__content ' );
+
+            books.forEach( book => {
+                book.addEventListener( 'click', () => {
+                    bookPreview.classList.add( 'show' );
+                    const bookClone = book.cloneNode( true );
+                    bookPreviewConten.innerHTML = '';
+                    bookPreviewConten.appendChild( bookClone );
+                } );
+            } );
+
+            books[ 0 ].click();
+// Open the first book in the preview pannel by default
+
+
+// Sort books by article data attribute title, authors, timestampwithsupport for ASC or DESC sorting
+            function sortBooks( sortBy = 'title', order = 'asc' ) {
+                const booksList = document.querySelector( '#books-list' );
+                const books = Array.from( booksList.children );
+
+                books.sort( ( a, b ) => {
+                    const aData = a.getAttribute( `data-${ sortBy }` );
+                    const bData = b.getAttribute( `data-${ sortBy }` );
+
+// For number based comparison
+                    if ( sortBy === 'added-timestamp' ) {
+                        return order === 'asc' ? aData - bData : bData - aData;
+                    }
+
+// For text based comparison
+                    return order === 'asc' ? aData.localeCompare( bData ) : bData.localeCompare( aData );
+                } );
+
+                books.forEach( book => booksList.appendChild( book ) );
+            }
+        </script>
+    </body>
+</html>
