@@ -37,7 +37,6 @@ async function main() {
         const catalogRemoteIds = gdriveIdsPath && fs.existsSync(gdriveIdsPath) ? JSON.parse(fs.readFileSync(gdriveIdsPath, 'utf8')) : false;
 
 
-
         /**
          * Parse the catalog data
          * **********************
