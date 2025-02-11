@@ -228,7 +228,7 @@
                     {% for book in books %}
                         <article id="book-{{book.id}}" class="book col-auto" title="{{book.title}}" data-added-timestamp="{{ book.added_timestamp }}" data-authors="{{ book.authors | replace(',', ', ') }}" data-title="{{ book.title }}" data-index="{{loop.index}}">
                             <header>
-                                <img src="{{ book.cover }}" alt="{{ book.title }}" class="d-block mx-auto shadow"/>
+                                <img src="{{ book.cover }}" alt="{{ book.title }}" class="d-block mx-auto shadow" loading="lazy" />
                             </header>
                             <div class="book__body">
                                 <h1 class="h3 text-center my-3">{{ book.title | safe}}</h1>
