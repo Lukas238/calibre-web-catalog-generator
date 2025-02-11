@@ -13,6 +13,7 @@ Optionaly, it can include a download button for the EPUB files stored in a Googl
 - Search bar to filter books by title.
 - Sort books by title, author, or date added.
 -  View as grid or list.
+-  QR code generator to quick link and share the catalog.
 
 ## Installation
 
