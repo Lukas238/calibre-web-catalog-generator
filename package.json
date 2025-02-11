@@ -6,12 +6,12 @@
   "bin": {
     "catalog2web": "catalog2web.js"
   },
-  "dependencies": {
+  "devDependencies": {
     "fs-extra": "^11.3.0",
     "nunjucks": "^3.2.4",
-    "xml2js": "^0.6.2"
+    "xml2js": "^0.6.2",
+    "sharp": "^0.33.5"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
