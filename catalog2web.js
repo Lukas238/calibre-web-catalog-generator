@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 
 const path = require('path');
 const xml2js = require('xml2js');
@@ -15,7 +16,7 @@ function getArgValue(argName) {
         if (!process.argv[index + 1]) {
             return null; // Argument value is missing
         } else {
-            return process.argv[index + 1]; // Argument value
+            return process.argv[index + 1].replace(/^\/|\/$/g, ''); // Argument value
         }
     }
 }
@@ -23,11 +24,25 @@ function getArgValue(argName) {
 async function main() {
     try {
 
-        const catalogPath = (getArgValue('--catalog-path') || '.').replace(/^\/|\/$/g, ''); // Default value is current directory
+      // Get the catalog path argument
+        const catalogPath = getArgValue('--catalog-path');
 
-        const webPath = (getArgValue('--web-path') || 'web').replace(/^\/|\/$/g, ''); // Default value is 'web'
+        // Check if the catalog path is valid
+        if (catalogPath == false || !fs.existsSync(catalogPath)) {
+            console.error('Catalog file not found');
+            return;
+        }
 
-        // 2. Parse the catalog XML file
+        // Get the web path argument
+        const webPath = (getArgValue('--web-path') || 'web'); // Default value is 'web'
+
+        // Check if the web path is valid
+        if (catalogPath == false || !fs.existsSync(catalogPath)) {
+          console.error('Web path not found');
+          return;
+      }
+
+        // Parse the catalog XML file
         const xmlData = await fs.readFile(catalogPath, 'utf-8');
         const parser = new xml2js.Parser();
         const parsedXml = await parser.parseStringPromise(xmlData);
@@ -118,7 +133,7 @@ async function main() {
 
         // 6. Render the HTML with Nunjucks
         nunjucks.configure({ autoescape: true });
-        const template = nunjucks.compile(fs.readFileSync('template.njk', 'utf8')); // Put the HTML template in template.njk
+        const template = nunjucks.compile(fs.readFileSync(__dirname + '/template.njk', 'utf8')); // Put the HTML template in template.njk
         const htmlCode = template.render({ catalogTitle, books });
 
         // 7. Write the HTML to a file

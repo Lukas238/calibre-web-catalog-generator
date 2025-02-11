@@ -21,12 +21,43 @@
                 overflow-y: auto;
                 height: 100vh;
             }
+            #controls-area {
+                font-size: 0.8em;
+                button {
+                    padding: 0 0.2em !important;
+                }
+            }
+
+            #sort-box {
+                .btn-sort {
+                    padding: 0 0.2em !important;
+                }
+                .btn-sort:after {
+                    vertical-align: middle;
+                    display: inline-block;
+                    height: 17px;
+                    width: 10px;
+                    content: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"/></svg>');
+                }
+                .btn-sort.desc:after {
+                    content: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/></svg>');
+                }
+
+            }
+
+
             #books-list {
+                &.-view-list .book .book__body {
+                    display: block;
+                }
+
                 .book {
                     display: inline-block;
+
                     header {
                         cursor: pointer;
                     }
+
                     img {
                         min-width: 200px;
                         max-width: 200px;
@@ -46,7 +77,7 @@
                 }
             }
             #book-preview {
-                width: 410px;
+                width: 430px;
                 display: none;
 
                 &.show {
@@ -56,15 +87,12 @@
                 overflow-y: auto;
                 height: 100vh;
                 .book-preview__content {
-                    width: 400px;
                     .book {
                         header {
                             text-align: center;
                             margin: 0 auto;
 
                             img {
-                                min-width: 300px;
-                                min-height: 400px;
                                 max-width: 300px;
                                 max-height: 400px;
                             }
@@ -75,22 +103,58 @@
         </style>
     </head>
     <body class="container-fluid">
-        <div class="row">
+        <div class="row g-0">
             <main class="col">
                 <h1>{{catalogTitle}}</h1>
-                <div id="search-box">
-                    <div class="input-group mb-3">
-                        <div class="form-control">
-                            <span class="" id="basic-addon1">@</span>
-                            <input type="text" class="d-flex-1" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-                        </div>
+
+                <div id="search-box" class="me-3 py-1">
+                    <input class="form-control border" placeholder="Search by title or author">
+                </div>
+                <div id="controls-area" class="d-flex me-3 py-1">
+                    <div id="sort-box" class="d-inline-block" title="Sort by">
+                        <label>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewbox="0 0 16 16">
+                                <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
+                            </svg>
+                            <strong class="d-none">Sort by:</strong>
+                        </label>
+
+
+                        <button id="sort-title" type="button" class="p-1 btn btn-sm btn-sort">Title</button>,
+                        <button id="sort-author" type="button" class="p-1 btn btn-sm btn-sort">Author</button>,
+                        <button id="sort-date" type="button" class="p-1 btn btn-sm btn-sort">Date</button>
                     </div>
 
+                    <div class="border-start ms-2 ps-2 flex-grow-1">
+                        <button id="sort-reset" type="button" class="text-end btn btn-sm btn-reset">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewbox="0 0 16 16">
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                            </svg>
+                            Clear
+                        </button>
+                    </div>
+
+                    <div id="views-box" class="d-inline-block ms-2 border-start ps-2 ">
+                        <label>
+                            <strong class="d-none">View:</strong>
+                        </label>
+                        <button id="viewGrid" type="button" class="btn btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid" viewbox="0 0 16 16">
+                                <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
+                            </svg>
+                        </button>
+                        <button id="viewList" type="button" class="btn btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewbox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
-                <section id="books-list" class="row g-1">
+
+                <section id="books-list" class="row g-2 m-0">
                     {% for book in books %}
-                        <article id="book-{{book.id}}" class="book col-auto p-2" title="{{book.title}}" data-added-timestamp="{{ book.added_timestamp }}" data-authors="{{ book.authors | replace(',', ', ') }}" data-title="{{ book.title }}">
+                        <article id="book-{{book.id}}" class="book col-auto" title="{{book.title}}" data-added-timestamp="{{ book.added_timestamp }}" data-authors="{{ book.authors | replace(',', ', ') }}" data-title="{{ book.title }}" data-index="{{loop.index}}">
                             <header>
                                 <img src="{{ book.cover }}" alt="{{ book.title }}" class="d-block mx-auto shadow"/>
                             </header>
@@ -174,9 +238,6 @@
                 } );
             } );
 
-            books[ 0 ].click();
-// Open the first book in the preview pannel by default
-
 
 // Sort books by article data attribute title, authors, timestampwithsupport for ASC or DESC sorting
             function sortBooks( sortBy = 'title', order = 'asc' ) {
@@ -198,6 +259,79 @@
 
                 books.forEach( book => booksList.appendChild( book ) );
             }
+
+
+            const btn_sort_title = document.querySelector( '#sort-title' );
+            btn_sort_title.addEventListener( 'click', ( e ) => {
+                btn_sort_title.classList.toggle( 'desc' );
+                sortBooks( 'title', btn_sort_title.classList.contains( 'desc' ) ? 'desc' : 'asc' );
+            } );
+
+            const btn_sort_author = document.querySelector( '#sort-author' );
+            btn_sort_author.addEventListener( 'click', ( e ) => {
+                btn_sort_author.classList.toggle( 'desc' );
+                sortBooks( 'authors', btn_sort_author.classList.contains( 'desc' ) ? 'desc' : 'asc' );
+            } );
+
+            const btn_sort_date = document.querySelector( '#sort-date' );
+            btn_sort_date.addEventListener( 'click', ( e ) => {
+                btn_sort_date.classList.toggle( 'desc' );
+                sortBooks( 'added-timestamp', btn_sort_date.classList.contains( 'desc' ) ? 'desc' : 'asc' );
+            } );
+
+            const btn_reset = document.querySelector( '#sort-reset' );
+// Remove all the sorting setting and classes
+            btn_reset.addEventListener( 'click', ( e ) => {
+                btn_sort_title.classList.remove( 'desc' );
+                btn_sort_author.classList.remove( 'desc' );
+                btn_sort_date.classList.remove( 'desc' );
+
+// Clear the serch box too
+                document.querySelector( '#search-box input' ).value = '';
+// And restore the inline-block to all books
+                books.forEach( book => book.style.display = 'inline-block' );
+
+
+                btn_sort_date.classList.add( 'desc' );
+                sortBooks( 'added-timestamp', 'desc' );
+
+                document.querySelector( '.book' ).click();
+
+            } );
+
+
+// Use the search box to filter books by title or author
+            const searchBox = document.querySelector( '#search-box input' );
+            searchBox.addEventListener( 'input', ( e ) => {
+                const searchValue = e.target.value.trim().toLowerCase();
+                books.forEach( book => {
+                    const title = book.getAttribute( 'data-title' ).toLowerCase();
+                    const authors = book.getAttribute( 'data-authors' ).toLowerCase();
+                    if ( title.includes( searchValue ) || authors.includes( searchValue ) ) {
+                        book.style.display = 'inline-block';
+                    } else {
+                        book.style.display = 'none';
+                    }
+                } );
+            } );
+
+// On grid and list buttons add the corresponding class to the book list div
+            const btn_viewGrid = document.querySelector( '#viewGrid' );
+            btn_viewGrid.addEventListener( 'click', ( e ) => {
+                document.querySelector( '#books-list' ).classList.remove( '-view-list' );
+            } );
+
+            const btn_viewList = document.querySelector( '#viewList' );
+            btn_viewList.addEventListener( 'click', ( e ) => {
+                document.querySelector( '#books-list' ).classList.add( '-view-list' );
+            } );
+
+
+// Initialize the page view
+
+            btn_sort_date.click(); // Sort by date by default
+
+            document.querySelector( '.book' ).click(); // Open the first book in the preview pannel by default
         </script>
     </body>
-</html>
+</html></body></html>

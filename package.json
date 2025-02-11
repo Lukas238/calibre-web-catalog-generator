@@ -1,7 +1,35 @@
 {
+  "name": "calibre-web-catalog-generator",
+  "version": "1.0.0",
+  "description": "A Node.js cli tool for generation a web catalog for your Calibre library.",
+  "main": "catalog2web.js",
+  "bin": {
+    "catalog2web": "catalog2web.js"
+  },
   "dependencies": {
     "fs-extra": "^11.3.0",
     "nunjucks": "^3.2.4",
     "xml2js": "^0.6.2"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lukas238/calibre-web-catalog-generator.git"
+  },
+  "keywords": [
+    "cli",
+    "calibre",
+    "ebook",
+    "generator",
+    "catalog"
+  ],
+  "author": "Lucas Dasso",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lukas238/calibre-web-catalog-generator/issues"
+  },
+  "homepage": "https://github.com/Lukas238/calibre-web-catalog-generator#readme"
 }
