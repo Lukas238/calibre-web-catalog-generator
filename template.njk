@@ -26,49 +26,94 @@
                 button {
                     padding: 0 0.2em !important;
                 }
-            }
-
-            #sort-box {
-                .btn-sort {
-                    padding: 0 0.2em !important;
-                }
-                .btn-sort:after {
-                    vertical-align: middle;
-                    display: inline-block;
-                    height: 17px;
-                    width: 10px;
-                    content: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"/></svg>');
-                }
-                .btn-sort.desc:after {
-                    content: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/></svg>');
-                }
-
-            }
 
 
-            #books-list {
-                &.-view-list .book .book__body {
-                    display: block;
-                }
-
-                .book {
-                    display: inline-block;
-
-                    header {
-                        cursor: pointer;
+                #sort-box {
+                    .btn-sort {
+                        padding: 0 0.2em !important;
+                    }
+                    .btn-sort:after {
+                        vertical-align: middle;
+                        display: inline-block;
+                        height: 17px;
+                        width: 10px;
+                        content: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"/></svg>');
+                    }
+                    .btn-sort.desc:after {
+                        content: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/></svg>');
                     }
 
+                }
+            }
+
+            #books-list {
+                &.-view-list {
+
+                    #table-header {
+                        display: block !important;
+                        width: 100%;
+                    }
+
+
+                    #table-header,
+                    .book {
+                        display: block;
+                        width: 100%;
+
+                        td {
+                            vertical-align: middle;
+                        }
+
+                        .col-cover {
+                            min-width: 48px;
+                            width: 48px;
+                            img {
+                                object-fit: cover;
+                            }
+                        }
+                        .col-title {
+                            min-width: 320px;
+                        }
+                        .col-authors {
+                            width: 320px;
+                            min-width: 320px;
+                        }
+                        .col-added-on {
+                            width: 120px;
+                        }
+                    }
+
+                    .book {
+                        margin: 0 !important;
+                        header {
+                            display: none;
+                        }
+                        .book__table {
+                            display: block !important;
+                            margin-top: -1px;
+                        }
+                    }
+                }
+            }
+
+            .book {
+                display: inline-block;
+
+                header {
+                    cursor: pointer;
                     img {
                         min-width: 200px;
                         max-width: 200px;
                         min-height: 300px;
                         max-height: 300px;
                     }
-                    .book__body {
-                        display: none;
-                    }
+                }
+
+                .book__body {
+                    display: none;
                 }
             }
+
             .book__body .book__meta {
                 font-size: 0.8em;
                 label {
@@ -86,6 +131,7 @@
 
                 overflow-y: auto;
                 height: 100vh;
+
                 .book-preview__content {
                     .book {
                         header {
@@ -97,6 +143,9 @@
                                 max-height: 400px;
                             }
                         }
+                        .book__body {
+                            display: block;
+                        }
                     }
                 }
             }
@@ -104,10 +153,10 @@
     </head>
     <body class="container-fluid">
         <div class="row g-0">
-            <main class="col">
+            <main class="col pe-3">
                 <h1>{{catalogTitle}}</h1>
 
-                <div id="search-box" class="me-3 py-1">
+                <div id="search-box" class="py-1">
                     <input class="form-control border" placeholder="Search by title or author">
                 </div>
                 <div id="controls-area" class="d-flex me-3 py-1">
@@ -134,6 +183,18 @@
                         </button>
                     </div>
 
+                    <div class="view-qr ms-2 border-start ps-2 ">
+                        <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#qr-modal" title="View catalog QR code">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-qr-code" viewbox="0 0 16 16">
+                                <path d="M2 2h2v2H2z"/>
+                                <path d="M6 0v6H0V0zM5 1H1v4h4zM4 12H2v2h2z"/>
+                                <path d="M6 10v6H0v-6zm-5 1v4h4v-4zm11-9h2v2h-2z"/>
+                                <path d="M10 0v6h6V0zm5 1v4h-4V1zM8 1V0h1v2H8v2H7V1zm0 5V4h1v2zM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8zm0 0v1H2V8H1v1H0V7h3v1zm10 1h-1V7h1zm-1 0h-1v2h2v-1h-1zm-4 0h2v1h-1v1h-1zm2 3v-1h-1v1h-1v1H9v1h3v-2zm0 0h3v1h-2v1h-1zm-4-1v1h1v-2H7v1z"/>
+                                <path d="M7 12h1v3h4v1H7zm9 2v2h-3v-1h2v-1z"/>
+                            </svg>
+                        </button>
+                    </div>
+
                     <div id="views-box" class="d-inline-block ms-2 border-start ps-2 ">
                         <label>
                             <strong class="d-none">View:</strong>
@@ -151,8 +212,19 @@
                     </div>
                 </div>
 
-
                 <section id="books-list" class="row g-2 m-0">
+
+                    <table id="table-header" class="table table-sm d-none m-0">
+                        <thead class="d-block">
+                            <tr class="d-flex">
+                                <th class="col-cover"></th>
+                                <th class="col-title flex-grow-1">Title</th>
+                                <th class="col-authors">Authors</th>
+                                <th class="col-added-on">Added on</th>
+                            </tr>
+                        </thead>
+                    </table>
+
                     {% for book in books %}
                         <article id="book-{{book.id}}" class="book col-auto" title="{{book.title}}" data-added-timestamp="{{ book.added_timestamp }}" data-authors="{{ book.authors | replace(',', ', ') }}" data-title="{{ book.title }}" data-index="{{loop.index}}">
                             <header>
@@ -206,9 +278,22 @@
                                     </div>
                                 {% endif %}
                             </div>
+                            <div class="book__table d-none">
+                                <table class="table table-bordered table-sm m-0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-cover"><img src="{{ book.cover }}" alt="{{ book.title }}" class="d-block mx-auto shadow" height="48"/></td>
+                                            <td class="col-title">{{book.title | safe }}</td>
+                                            <td class="col-authors">{{book.authors | safe }}</td>
+                                            <td class="col-added-on">{{book.added_date}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </article>
                     {% endfor %}
                 </section>
+
             </main>
 
             <aside id="book-preview" class="col-auto g-0 show bg-light shadow">
@@ -223,7 +308,25 @@
         </div>
 
 
+        <div id="qr-modal" class="modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="h4">Catalog QR code link</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <div id="qr-code" class="d-inline-block"></div>
+                        <p>Scan this QR code to acess <br/>{{catalogTitle | safe}}.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
         <script>
             const books = document.querySelectorAll( '.book' );
             const bookPreview = document.querySelector( '#book-preview' );
@@ -242,7 +345,7 @@
 // Sort books by article data attribute title, authors, timestampwithsupport for ASC or DESC sorting
             function sortBooks( sortBy = 'title', order = 'asc' ) {
                 const booksList = document.querySelector( '#books-list' );
-                const books = Array.from( booksList.children );
+                const books = Array.from( booksList.querySelectorAll( '.book' ) );
 
                 books.sort( ( a, b ) => {
                     const aData = a.getAttribute( `data-${ sortBy }` );
@@ -332,6 +435,9 @@
             btn_sort_date.click(); // Sort by date by default
 
             document.querySelector( '.book' ).click(); // Open the first book in the preview pannel by default
+
+            // Get the current page URL and generate a QR code for it
+            const qrCode = new QRCode( 'qr-code', window.location.href );
         </script>
     </body>
 </html></body></html>
