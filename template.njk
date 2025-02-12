@@ -47,6 +47,8 @@
             }
 
             #books-list {
+                gap: 0.8em;
+
                 &.-view-list {
 
                     #table-header {
@@ -122,7 +124,7 @@
                 }
             }
             #book-preview {
-                width: 430px;
+                width: 428px;
                 display: none;
 
                 &.show {
@@ -152,9 +154,9 @@
             }
         </style>
     </head>
-    <body class="container-fluid">
+    <body class="container-fixed">
         <div class="row g-0">
-            <main class="col pe-3">
+            <main class="col p-3">
                 <h1>{{catalogTitle}}</h1>
 
                 <div id="search-box" class="py-1">
@@ -227,7 +229,7 @@
 
                 </div>
 
-                <section id="books-list" class="row g-2 m-0">
+                <section id="books-list" class=" g-2 m-0 d-flex flex-wrap">
 
                     <table id="table-header" class="table table-sm d-none m-0">
                         <thead class="d-block">
@@ -241,7 +243,7 @@
                     </table>
 
                     {% for book in books %}
-                        <article id="book-{{book.id}}" class="book col-auto" title="{{book.title}}" data-added-timestamp="{{ book.added_timestamp }}" data-authors="{{ book.authors | replace(',', ', ') }}" data-title="{{ book.title }}" data-index="{{loop.index}}">
+                        <article id="book-{{book.id}}" class="book " title="{{book.title}}" data-added-timestamp="{{ book.added_timestamp }}" data-authors="{{ book.authors | replace(',', ', ') }}" data-title="{{ book.title }}" data-index="{{loop.index}}">
                             <header title="{{book.title}}">
                                 <img src="{{ book.cover }}" loading="lazy" alt="{{ book.title }}" class="d-block mx-auto shadow" width="250" height="auto"/>
                             </header>
