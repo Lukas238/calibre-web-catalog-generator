@@ -146,6 +146,12 @@ async function main() {
       };
     }));
 
+    // Sort the books by added date descending. Default sort
+    books.sort((a, b) => b.added_timestamp - a.added_timestamp);
+
+    // Copy the favicons folder to the web directory
+    fs.copySync(__dirname + '/favicons', webPath + '/favicons');
+
     // 6. Render the HTML with Nunjucks
     nunjucks.configure({ autoescape: true });
     const template = nunjucks.compile(fs.readFileSync(__dirname + '/template.njk', 'utf8')); // Put the HTML template in template.njk
