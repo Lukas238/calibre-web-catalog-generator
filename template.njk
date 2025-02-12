@@ -137,6 +137,7 @@
                         header {
                             text-align: center;
                             margin: 0 auto;
+                            cursor: default;
 
                             img {
                                 max-width: 300px;
@@ -210,6 +211,20 @@
                             </svg>
                         </button>
                     </div>
+
+                    <div class="ms-2 border-start ps-2 nav-item align-items-center d-flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brightness-high" viewbox="0 0 16 16">
+                            <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/>
+                        </svg>
+                        <!-- Default switch -->
+                        <div class="ms-2 form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="themingSwitcher"/>
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-moon" viewbox="0 0 16 16">
+                            <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286"/>
+                        </svg>
+                    </div>
+
                 </div>
 
                 <section id="books-list" class="row g-2 m-0">
@@ -296,7 +311,7 @@
 
             </main>
 
-            <aside id="book-preview" class="col-auto g-0 show bg-light shadow">
+            <aside id="book-preview" class="col-auto g-0 bg-light-subtle shadow">
 
                 <h2 class="h4 py-2 px-3">Book preview
                     <button type="button" class="btn-close fs-6 float-end mt-1" aria-label="Close" data-bs-toggle="collapse" data-bs-target="#book-preview"></button>
@@ -309,15 +324,20 @@
 
 
         <div id="qr-modal" class="modal" tabindex="-1">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="h4">Catalog QR code link</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-center">
-                        <div id="qr-code" class="d-inline-block"></div>
-                        <p>Scan this QR code to acess <br/>{{catalogTitle | safe}}.</p>
+                        <div id="qr-code" class="p-3 bg-white d-inline-block"></div>
+                        <p>Share this QR code to acess
+                            <br/><strong>{{catalogTitle | safe}}</strong>
+                            at:
+                            <br/>
+                            <a id="qr-catalog-url" href="" target="_blank"></a>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -342,7 +362,7 @@
             } );
 
 
-// Sort books by article data attribute title, authors, timestampwithsupport for ASC or DESC sorting
+            // Sort books by article data attributes, asc or desc
             function sortBooks( sortBy = 'title', order = 'asc' ) {
                 const booksList = document.querySelector( '#books-list' );
                 const books = Array.from( booksList.querySelectorAll( '.book' ) );
@@ -351,59 +371,64 @@
                     const aData = a.getAttribute( `data-${ sortBy }` );
                     const bData = b.getAttribute( `data-${ sortBy }` );
 
-// For number based comparison
+                    // For number based comparison
                     if ( sortBy === 'added-timestamp' ) {
                         return order === 'asc' ? aData - bData : bData - aData;
                     }
 
-// For text based comparison
+                    // For text based comparison
                     return order === 'asc' ? aData.localeCompare( bData ) : bData.localeCompare( aData );
                 } );
 
                 books.forEach( book => booksList.appendChild( book ) );
             }
 
-
+            /**
+             *  Sort Controls
+             * ****************************
+             */
+            // Sort by title
             const btn_sort_title = document.querySelector( '#sort-title' );
             btn_sort_title.addEventListener( 'click', ( e ) => {
                 btn_sort_title.classList.toggle( 'desc' );
                 sortBooks( 'title', btn_sort_title.classList.contains( 'desc' ) ? 'desc' : 'asc' );
             } );
 
+            // Sort by Autors
             const btn_sort_author = document.querySelector( '#sort-author' );
             btn_sort_author.addEventListener( 'click', ( e ) => {
                 btn_sort_author.classList.toggle( 'desc' );
                 sortBooks( 'authors', btn_sort_author.classList.contains( 'desc' ) ? 'desc' : 'asc' );
             } );
 
+            // Sort by date
             const btn_sort_date = document.querySelector( '#sort-date' );
             btn_sort_date.addEventListener( 'click', ( e ) => {
                 btn_sort_date.classList.toggle( 'desc' );
                 sortBooks( 'added-timestamp', btn_sort_date.classList.contains( 'desc' ) ? 'desc' : 'asc' );
             } );
 
-            const btn_reset = document.querySelector( '#sort-reset' );
-// Remove all the sorting setting and classes
-            btn_reset.addEventListener( 'click', ( e ) => {
+            // Reset search and sort settings
+            document.querySelector( '#sort-reset' ).addEventListener( 'click', ( e ) => {
                 btn_sort_title.classList.remove( 'desc' );
                 btn_sort_author.classList.remove( 'desc' );
                 btn_sort_date.classList.remove( 'desc' );
 
-// Clear the serch box too
+                // Clear the serch box too
                 document.querySelector( '#search-box input' ).value = '';
-// And restore the inline-block to all books
+
+                // And restore the inline-block to all books
                 books.forEach( book => book.style.display = 'inline-block' );
 
-
                 btn_sort_date.classList.add( 'desc' );
-                sortBooks( 'added-timestamp', 'desc' );
-
-                document.querySelector( '.book' ).click();
-
+                sortBooks( 'added-timestamp', 'desc' ); // Sort by date by default
             } );
 
 
-// Use the search box to filter books by title or author
+            /**
+             *  Search box
+             * ****************************
+             */
             const searchBox = document.querySelector( '#search-box input' );
             searchBox.addEventListener( 'input', ( e ) => {
                 const searchValue = e.target.value.trim().toLowerCase();
@@ -418,26 +443,58 @@
                 } );
             } );
 
-// On grid and list buttons add the corresponding class to the book list div
+            /**
+             *  Views Controls
+             * ****************************
+             */
+            // Set grid view
             const btn_viewGrid = document.querySelector( '#viewGrid' );
             btn_viewGrid.addEventListener( 'click', ( e ) => {
                 document.querySelector( '#books-list' ).classList.remove( '-view-list' );
             } );
-
+            // Set list view
             const btn_viewList = document.querySelector( '#viewList' );
             btn_viewList.addEventListener( 'click', ( e ) => {
                 document.querySelector( '#books-list' ).classList.add( '-view-list' );
             } );
 
+            /**
+             *  Theme selector Control
+             * ****************************
+             */
+            function updateTheme() {
+                document.body.setAttribute( 'data-bs-theme', document.querySelector( '#themingSwitcher' ).checked ? 'dark' : 'light' );
+            }
+            document.querySelector( '#themingSwitcher' ).addEventListener( 'click', () => {
+                updateTheme();
+            } );
+
+            function updateQRLink() {
+
+                // Get the current page URL and generate a QR code for it
+                var catalog_url = window.location.href;
+                catalog_url = catalog_url.replace( /\/[^\/]+$/, '' );
+
+                // Update the text link
+                document.querySelector( '#qr-catalog-url' ).textContent = catalog_url;
+                document.querySelector( '#qr-catalog-url' ).href = catalog_url;
+
+                //Update the QR code image
+                const qrCode = new QRCode( 'qr-code', catalog_url );
+            }
+
 
             // Initialize the page view
+            function init() {
+                updateTheme(); // Set selected theme
 
-            btn_sort_date.click(); // Sort by date by default
+                btn_sort_date.click(); // Sort by date by default
 
-            document.querySelector( '.book' ).click(); // Open the first book in the preview pannel by default
+                updateQRLink();
 
-            // Get the current page URL and generate a QR code for it
-            const qrCode = new QRCode( 'qr-code', window.location.href );
+            }
+
+            init();
         </script>
     </body>
 </html></body></html>
