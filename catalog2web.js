@@ -97,21 +97,41 @@ async function main() {
       return newImagePath;
     }
 
-    async function getGoogleDriveId(book, catalogRemoteIds) {
+    // Search the book formats and if find PDF or EPUB format, return the Google Drive ID for each as type,id pair.
+    async function getFormatsGoogleDriveIds(book, catalogRemoteIds) {
       // Loop al formats and get the first epub format
-      // if(!book.formats || !book.formats[0].format) return false;
+      if (!book.formats || !book.formats[0].format) return false;
 
-      try {
-        for (const format of book.formats[0].format) {
-          if (format.endsWith('.epub')) {
-            const bookName = format.split('/').slice(-2).join('/'); // Get the first format and extract the last two directories and the file name
-            return catalogRemoteIds.find(item => item.Path.includes(bookName))?.ID || false;
+      var output = [];
+
+      for (const format of book.formats[0].format) {
+        try {
+
+          // Get format extension name
+          const formatType = (format.split('.').slice(-1)[0]).toLowerCase();
+
+          // Check if the format is a valid format: PDF or EPUB
+          if (!['pdf', 'epub'].includes(formatType)) continue;
+
+          // Get the first format and extract the last two directories and the file name
+          const formatName = format.split('/').slice(-2).join('/');
+
+          const formatGoogleDriveId = catalogRemoteIds.find(item => item.Path.includes(formatName))?.ID || false;
+
+          if (formatGoogleDriveId) {
+            output.push({
+              'type': formatType,
+              'id': formatGoogleDriveId
+            });
           }
+
+        } catch (e) {
+          console.error('Error looking for Google Drive ID for "' + book.title[0]['_'] + '" book.');
         }
-        return false;
-      } catch (e) {
-        console.error(book.title[0]['_']);
       }
+
+      return output;
+
     }
 
     async function cleanBookSummary(summary) {
@@ -125,7 +145,7 @@ async function main() {
 
       const cover = await copyCoverImage(book.cover && book.cover[0]); // Copy cover images to the web directory
 
-      const googleDriveId = catalogRemoteIds ? await getGoogleDriveId(book, catalogRemoteIds) : '';
+      const formats = catalogRemoteIds ? await getFormatsGoogleDriveIds(book, catalogRemoteIds) : '';
 
       const summary = await cleanBookSummary(book.comments && book.comments[0]);
 
@@ -142,7 +162,7 @@ async function main() {
         // links: buildLinks(book.identifiers && book.identifiers[0], book.title[0])
         added_date: (book.timestamp && book.timestamp[0]).slice(0, 10), // This is a date string
         added_timestamp: Date.parse(book.timestamp && book.timestamp[0]), // This is a propper timestamp
-        googleDriveId: googleDriveId
+        formats: formats
       };
     }));
 
