@@ -8,7 +8,8 @@
         <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
         <link rel="manifest" href="favicons/site.webmanifest">
 
-        <title>{{catalogTitle}} | Catalog</title>
+        <title>{{catalogTitle}}
+            | Catalog</title>
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
         <style>
@@ -50,7 +51,7 @@
 
                 }
 
-                .form-switch input{
+                .form-switch input {
                     cursor: pointer;
                 }
             }
@@ -188,7 +189,7 @@
                     </div>
 
                     <div class="border-start ms-2 ps-2 flex-grow-1">
-                        <button id="sort-reset" type="button" class="text-end btn btn-sm btn-reset"  title="Clean all filter">
+                        <button id="sort-reset" type="button" class="text-end btn btn-sm btn-reset" title="Clean all filter">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewbox="0 0 16 16">
                                 <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
                             </svg>
@@ -230,7 +231,7 @@
                         </svg>
                         <!-- Default switch -->
                         <div class="ms-2 form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="themingSwitcher"  title="Theme switcher"/>
+                            <input class="form-check-input" type="checkbox" role="switch" id="themingSwitcher" title="Theme switcher"/>
                         </div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-moon" viewbox="0 0 16 16">
                             <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286"/>
@@ -277,18 +278,19 @@
                                 </ul>
                                 <div class="text-center m-3">
 
-                                {% if book.formats %}
-                                    {% for format in book.formats %}
-                                    <div>
-                                        <a href="https://drive.google.com/uc?export=download&id={{ format.id }}" class="btn btn-primary mb-3" target="_blank">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewbox="0 0 16 16">
-                                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
-                                                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
-                                            </svg>
-                                            Download {{format.type | upper}}</a>
-                                    </div>
-                                    {% endfor %}
-                                {% endif %}
+                                    {% if book.formats %}
+                                        <div class="row justify-content-center mb-2">
+                                            {% for format in book.formats %}
+                                                <a class="btn btn-primary text-nowrap col-auto m-1" href="https://drive.google.com/uc?export=download&id={{ format.id }}" target="_blank">
+                                                    {{format.type | upper}}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewbox="0 0 16 16">
+                                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                                                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+                                                    </svg>
+                                                </a>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
 
                                     <div>
                                         <small>
@@ -377,7 +379,7 @@
             } );
 
 
-            // Sort books by article data attributes, asc or desc
+// Sort books by article data attributes, asc or desc
             function sortBooks( sortBy = 'title', order = 'asc' ) {
                 const booksList = document.querySelector( '#books-list' );
                 const books = Array.from( booksList.querySelectorAll( '.book' ) );
@@ -386,53 +388,53 @@
                     const aData = a.getAttribute( `data-${ sortBy }` );
                     const bData = b.getAttribute( `data-${ sortBy }` );
 
-                    // For number based comparison
+// For number based comparison
                     if ( sortBy === 'added-timestamp' ) {
                         return order === 'asc' ? aData - bData : bData - aData;
                     }
 
-                    // For text based comparison
+// For text based comparison
                     return order === 'asc' ? aData.localeCompare( bData ) : bData.localeCompare( aData );
                 } );
 
                 books.forEach( book => booksList.appendChild( book ) );
             }
 
-            /**
+/**
              *  Sort Controls
              * ****************************
              */
-            // Sort by title
+// Sort by title
             const btn_sort_title = document.querySelector( '#sort-title' );
             btn_sort_title.addEventListener( 'click', ( e ) => {
                 btn_sort_title.classList.toggle( 'desc' );
                 sortBooks( 'title', btn_sort_title.classList.contains( 'desc' ) ? 'desc' : 'asc' );
             } );
 
-            // Sort by Autors
+// Sort by Autors
             const btn_sort_author = document.querySelector( '#sort-author' );
             btn_sort_author.addEventListener( 'click', ( e ) => {
                 btn_sort_author.classList.toggle( 'desc' );
                 sortBooks( 'authors', btn_sort_author.classList.contains( 'desc' ) ? 'desc' : 'asc' );
             } );
 
-            // Sort by date
+// Sort by date
             const btn_sort_date = document.querySelector( '#sort-date' );
             btn_sort_date.addEventListener( 'click', ( e ) => {
                 btn_sort_date.classList.toggle( 'desc' );
                 sortBooks( 'added-timestamp', btn_sort_date.classList.contains( 'desc' ) ? 'desc' : 'asc' );
             } );
 
-            // Reset search and sort settings
+// Reset search and sort settings
             document.querySelector( '#sort-reset' ).addEventListener( 'click', ( e ) => {
                 btn_sort_title.classList.remove( 'desc' );
                 btn_sort_author.classList.remove( 'desc' );
                 btn_sort_date.classList.remove( 'desc' );
 
-                // Clear the serch box too
+// Clear the serch box too
                 document.querySelector( '#search-box input' ).value = '';
 
-                // And restore the inline-block to all books
+// And restore the inline-block to all books
                 books.forEach( book => book.style.display = 'inline-block' );
 
                 btn_sort_date.classList.add( 'desc' );
@@ -440,7 +442,7 @@
             } );
 
 
-            /**
+/**
              *  Search box
              * ****************************
              */
@@ -458,22 +460,22 @@
                 } );
             } );
 
-            /**
+/**
              *  Views Controls
              * ****************************
              */
-            // Set grid view
+// Set grid view
             const btn_viewGrid = document.querySelector( '#viewGrid' );
             btn_viewGrid.addEventListener( 'click', ( e ) => {
                 document.querySelector( '#books-list' ).classList.remove( '-view-list' );
             } );
-            // Set list view
+// Set list view
             const btn_viewList = document.querySelector( '#viewList' );
             btn_viewList.addEventListener( 'click', ( e ) => {
                 document.querySelector( '#books-list' ).classList.add( '-view-list' );
             } );
 
-            /**
+/**
              *  Theme selector Control
              * ****************************
              */
@@ -484,22 +486,20 @@
                 updateTheme();
             } );
 
-            function updateQRLink() {
-
-                // Get the current page URL and generate a QR code for it
+            function updateQRLink() { // Get the current page URL and generate a QR code for it
                 var catalog_url = window.location.href;
                 catalog_url = catalog_url.replace( /\/[^\/]+$/, '' );
 
-                // Update the text link
+// Update the text link
                 document.querySelector( '#qr-catalog-url' ).textContent = catalog_url;
                 document.querySelector( '#qr-catalog-url' ).href = catalog_url;
 
-                //Update the QR code image
+//Update the QR code image
                 const qrCode = new QRCode( 'qr-code', catalog_url );
             }
 
 
-            // Initialize the page view
+// Initialize the page view
             function init() {
                 updateTheme(); // Set selected theme
 
