@@ -37,22 +37,46 @@
                 #sort-box {
                     .btn-sort {
                         padding: 0 0.2em !important;
-                    }
-                    .btn-sort:after {
-                        vertical-align: middle;
-                        display: inline-block;
-                        height: 17px;
-                        width: 10px;
-                        content: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"/></svg>');
-                    }
-                    .btn-sort.desc:after {
-                        content: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/></svg>');
+                        opacity: .5;
+
+                        &:after{
+                            content: '';
+                            vertical-align: middle;
+                            display: inline-block;
+                            height: 17px;
+                            width: 10px;
+                        }
+
+                        &:after {
+                            content: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"/></svg>');
+                        }
+
+                        &.desc:after {
+                            content: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/></svg>');
+                        }
+                        &.asc,
+                        &.desc {
+                            opacity: 1;
+                            &:after {
+                                display: inline-block;
+                            }
+                        }
                     }
 
                 }
 
                 .form-switch input {
                     cursor: pointer;
+                }
+            }
+
+            body[data-bs-theme="dark"] {
+                #controls-area {
+                    #sort-box {
+                        .btn-sort:after {
+                            filter: invert(1);
+                        }
+                    }
                 }
             }
 
@@ -185,7 +209,7 @@
 
                         <button id="sort-title" type="button" class="p-1 btn btn-sm btn-sort" title="Sort by Title">Title</button>,
                         <button id="sort-author" type="button" class="p-1 btn btn-sm btn-sort" title="Sort by Author">Author</button>,
-                        <button id="sort-date" type="button" class="p-1 btn btn-sm btn-sort" title="Sort by Date">Date</button>
+                        <button id="sort-id" type="button" class="desc p-1 btn btn-sm btn-sort" title="Sort by Date">Date</button>
                     </div>
 
                     <div class="border-start ms-2 ps-2 flex-grow-1">
@@ -254,7 +278,7 @@
                     </table>
 
                     {% for book in books %}
-                        <article id="book-{{book.id}}" class="book " title="{{book.title}}" data-added-timestamp="{{ book.added_timestamp }}" data-authors="{{ book.authors | replace(',', ', ') }}" data-title="{{ book.title }}" data-index="{{loop.index}}">
+                        <article id="book-{{book.id}}" class="book " title="{{book.title}}" data-id="{{ book.id }}" data-authors="{{ book.authors | replace(',', ', ') }}" data-title="{{ book.title }}" data-index="{{loop.index}}">
                             <header title="{{book.title}}">
                                 <img src="{{ book.cover }}" loading="lazy" alt="{{ book.title }}" class="d-block mx-auto shadow" width="250" height="auto"/>
                             </header>
@@ -380,7 +404,7 @@
 
 
 // Sort books by article data attributes, asc or desc
-            function sortBooks( sortBy = 'title', order = 'asc' ) {
+            function sortBooks( sortBy = 'title', order = 'desc' ) {
                 const booksList = document.querySelector( '#books-list' );
                 const books = Array.from( booksList.querySelectorAll( '.book' ) );
 
@@ -389,7 +413,7 @@
                     const bData = b.getAttribute( `data-${ sortBy }` );
 
 // For number based comparison
-                    if ( sortBy === 'added-timestamp' ) {
+                    if ( sortBy === 'id' ) {
                         return order === 'asc' ? aData - bData : bData - aData;
                     }
 
@@ -407,38 +431,62 @@
 // Sort by title
             const btn_sort_title = document.querySelector( '#sort-title' );
             btn_sort_title.addEventListener( 'click', ( e ) => {
-                btn_sort_title.classList.toggle( 'desc' );
+                // Remove other sort buttons from the class
+                btn_sort_author.classList.remove( 'desc', 'asc' );
+                btn_sort_id.classList.remove( 'desc', 'asc' );
+
+                if( !btn_sort_title.classList.contains( 'desc' ) && !btn_sort_title.classList.contains( 'asc' ) ){
+                    btn_sort_title.classList.add( 'asc' ); // Default
+                }else{
+                    btn_sort_title.classList.toggle( 'desc' );
+                    btn_sort_title.classList.toggle( 'asc' );
+                }
+
                 sortBooks( 'title', btn_sort_title.classList.contains( 'desc' ) ? 'desc' : 'asc' );
             } );
 
 // Sort by Autors
             const btn_sort_author = document.querySelector( '#sort-author' );
             btn_sort_author.addEventListener( 'click', ( e ) => {
-                btn_sort_author.classList.toggle( 'desc' );
+                // Remove other sort buttons from the class
+                btn_sort_title.classList.remove( 'desc', 'asc' );
+                btn_sort_id.classList.remove( 'desc', 'asc' );
+                if ( !btn_sort_author.classList.contains( 'desc' ) && !btn_sort_author.classList.contains( 'asc' ) ) {
+                    btn_sort_author.classList.add( 'asc' ); // Default
+                }else{
+                    btn_sort_author.classList.toggle( 'desc' );
+                    btn_sort_author.classList.toggle( 'asc' );
+                }
                 sortBooks( 'authors', btn_sort_author.classList.contains( 'desc' ) ? 'desc' : 'asc' );
             } );
 
 // Sort by date
-            const btn_sort_date = document.querySelector( '#sort-date' );
-            btn_sort_date.addEventListener( 'click', ( e ) => {
-                btn_sort_date.classList.toggle( 'desc' );
-                sortBooks( 'added-timestamp', btn_sort_date.classList.contains( 'desc' ) ? 'desc' : 'asc' );
+            const btn_sort_id = document.querySelector( '#sort-id' );
+            btn_sort_id.addEventListener( 'click', ( e ) => {
+                // Remove other sort buttons from the class
+                btn_sort_title.classList.remove( 'desc', 'asc' );
+                btn_sort_author.classList.remove( 'desc', 'asc' );
+
+                if ( !btn_sort_id.classList.contains( 'desc' ) && !btn_sort_id.classList.contains( 'asc' ) ) {
+                    btn_sort_id.classList.add( 'desc' ); // Add desc by default
+                }else{
+                    btn_sort_id.classList.toggle( 'desc' );
+                    btn_sort_id.classList.toggle( 'asc' );
+                }
+                sortBooks( 'id', btn_sort_id.classList.contains( 'desc' ) ? 'desc' : 'asc' );
             } );
 
-// Reset search and sort settings
+            // Reset search and sort settings
             document.querySelector( '#sort-reset' ).addEventListener( 'click', ( e ) => {
-                btn_sort_title.classList.remove( 'desc' );
-                btn_sort_author.classList.remove( 'desc' );
-                btn_sort_date.classList.remove( 'desc' );
-
-// Clear the serch box too
+                // Clear the serch box too
                 document.querySelector( '#search-box input' ).value = '';
 
-// And restore the inline-block to all books
+                // And restore the inline-block to all books
                 books.forEach( book => book.style.display = 'inline-block' );
 
-                btn_sort_date.classList.add( 'desc' );
-                sortBooks( 'added-timestamp', 'desc' ); // Sort by date by default
+                // Reset the sort to default
+                btn_sort_id.classList.remove( 'desc', 'asc' );
+                btn_sort_id.click();
             } );
 
 
@@ -481,11 +529,28 @@
              */
             function updateTheme() {
                 document.body.setAttribute( 'data-bs-theme', document.querySelector( '#themingSwitcher' ).checked ? 'dark' : 'light' );
+// Save the theme preference in a browser cookie that never exipres
+                document.cookie = `theme=${
+                    document.querySelector( '#themingSwitcher' ).checked ? 'dark' : 'light'
+                }; path=/; max-age=31536000`; // 1 year
             }
             document.querySelector( '#themingSwitcher' ).addEventListener( 'click', () => {
                 updateTheme();
             } );
 
+            function loadThemeFromCookie() {
+                const themeCookie = document.cookie.split( '; ' ).find( row => row.startsWith( 'theme=' ) );
+                if ( themeCookie ) {
+                    document.querySelector( '#themingSwitcher' ).checked = themeCookie.split( '=' )[ 1 ] === 'dark';
+                    updateTheme();
+                }
+            }
+
+
+/**
+             *  QR code generator
+             * ****************************
+             */
             function updateQRLink() { // Get the current page URL and generate a QR code for it
                 var catalog_url = window.location.href;
                 catalog_url = catalog_url.replace( /\/[^\/]+$/, '' );
@@ -501,7 +566,7 @@
 
 // Initialize the page view
             function init() {
-                updateTheme(); // Set selected theme
+                loadThemeFromCookie();
 
                 updateQRLink();
 
