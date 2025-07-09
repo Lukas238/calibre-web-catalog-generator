@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
@@ -18,17 +19,21 @@
                 margin: 0;
                 padding: 0;
             }
+
             body {
                 min-width: 890px;
                 height: 100%;
                 overflow: hidden;
             }
+
             main {
                 overflow-y: auto;
                 height: 100vh;
             }
+
             #controls-area {
                 font-size: 0.8em;
+
                 button {
                     padding: 0 0.2em !important;
                 }
@@ -39,7 +44,7 @@
                         padding: 0 0.2em !important;
                         opacity: .5;
 
-                        &:after{
+                        &:after {
                             content: '';
                             vertical-align: middle;
                             display: inline-block;
@@ -54,9 +59,11 @@
                         &.desc:after {
                             content: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/></svg>');
                         }
+
                         &.asc,
                         &.desc {
                             opacity: 1;
+
                             &:after {
                                 display: inline-block;
                             }
@@ -84,6 +91,7 @@
                 gap: 0.8em;
 
                 &.-view-list {
+                    gap: 0em;
 
                     #table-header {
                         display: block !important;
@@ -103,17 +111,21 @@
                         .col-cover {
                             min-width: 48px;
                             width: 48px;
+
                             img {
                                 object-fit: cover;
                             }
                         }
+
                         .col-title {
                             min-width: 320px;
                         }
+
                         .col-authors {
                             width: 320px;
                             min-width: 320px;
                         }
+
                         .col-added-on {
                             width: 120px;
                         }
@@ -121,9 +133,11 @@
 
                     .book {
                         margin: 0 !important;
+
                         header {
                             display: none;
                         }
+
                         .book__table {
                             display: block !important;
                             margin-top: -1px;
@@ -137,6 +151,7 @@
 
                 header {
                     cursor: pointer;
+
                     img {
                         min-width: 200px;
                         max-width: 200px;
@@ -152,11 +167,13 @@
 
             .book__body .book__meta {
                 font-size: 0.8em;
+
                 label {
                     font-style: italic;
                     font-size: 0.8em;
                 }
             }
+
             #book-preview {
                 width: 428px;
                 display: none;
@@ -170,6 +187,7 @@
                 .book-preview__content {
                     height: calc(100% - 52px);
                     overflow-y: auto;
+
                     .book {
                         header {
                             text-align: center;
@@ -181,14 +199,19 @@
                                 max-height: 400px;
                             }
                         }
+
                         .book__body {
                             display: block;
                         }
                     }
                 }
             }
+            body.-show-books-formats .book-formats{
+                display: block !important;
+            }
         </style>
     </head>
+
     <body class="container-fixed">
         <div class="row g-0">
             <main class="col p-3">
@@ -201,7 +224,7 @@
                     <div id="sort-box" class="d-inline-block">
                         <label title="Sort by:">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewbox="0 0 16 16">
-                                <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
+                                <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" />
                             </svg>
                             <strong class="d-none">Sort by:</strong>
                         </label>
@@ -215,7 +238,7 @@
                     <div class="border-start ms-2 ps-2 flex-grow-1">
                         <button id="sort-reset" type="button" class="text-end btn btn-sm btn-reset" title="Clean all filter">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewbox="0 0 16 16">
-                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
                             </svg>
                             Clear
                         </button>
@@ -224,11 +247,11 @@
                     <div class="view-qr ms-2 border-start ps-2 ">
                         <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#qr-modal" title="View catalog QR code">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-qr-code" viewbox="0 0 16 16">
-                                <path d="M2 2h2v2H2z"/>
-                                <path d="M6 0v6H0V0zM5 1H1v4h4zM4 12H2v2h2z"/>
-                                <path d="M6 10v6H0v-6zm-5 1v4h4v-4zm11-9h2v2h-2z"/>
-                                <path d="M10 0v6h6V0zm5 1v4h-4V1zM8 1V0h1v2H8v2H7V1zm0 5V4h1v2zM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8zm0 0v1H2V8H1v1H0V7h3v1zm10 1h-1V7h1zm-1 0h-1v2h2v-1h-1zm-4 0h2v1h-1v1h-1zm2 3v-1h-1v1h-1v1H9v1h3v-2zm0 0h3v1h-2v1h-1zm-4-1v1h1v-2H7v1z"/>
-                                <path d="M7 12h1v3h4v1H7zm9 2v2h-3v-1h2v-1z"/>
+                                <path d="M2 2h2v2H2z" />
+                                <path d="M6 0v6H0V0zM5 1H1v4h4zM4 12H2v2h2z" />
+                                <path d="M6 10v6H0v-6zm-5 1v4h4v-4zm11-9h2v2h-2z" />
+                                <path d="M10 0v6h6V0zm5 1v4h-4V1zM8 1V0h1v2H8v2H7V1zm0 5V4h1v2zM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8zm0 0v1H2V8H1v1H0V7h3v1zm10 1h-1V7h1zm-1 0h-1v2h2v-1h-1zm-4 0h2v1h-1v1h-1zm2 3v-1h-1v1h-1v1H9v1h3v-2zm0 0h3v1h-2v1h-1zm-4-1v1h1v-2H7v1z" />
+                                <path d="M7 12h1v3h4v1H7zm9 2v2h-3v-1h2v-1z" />
                             </svg>
                         </button>
                     </div>
@@ -239,26 +262,26 @@
                         </label>
                         <button id="viewGrid" type="button" class="btn btn-sm" title="View as Grid">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid" viewbox="0 0 16 16">
-                                <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
+                                <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z" />
                             </svg>
                         </button>
                         <button id="viewList" type="button" class="btn btn-sm" title="View as List">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewbox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
                             </svg>
                         </button>
                     </div>
 
                     <div class="ms-2 border-start ps-2 nav-item align-items-center d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brightness-high" viewbox="0 0 16 16">
-                            <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/>
+                            <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
                         </svg>
                         <!-- Default switch -->
                         <div class="ms-2 form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="themingSwitcher" title="Theme switcher"/>
+                            <input class="form-check-input" type="checkbox" role="switch" id="themingSwitcher" title="Theme switcher" />
                         </div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-moon" viewbox="0 0 16 16">
-                            <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286"/>
+                            <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
                         </svg>
                     </div>
 
@@ -278,75 +301,75 @@
                     </table>
 
                     {% for book in books %}
-                        <article id="book-{{book.id}}" class="book " title="{{book.title}}" data-id="{{ book.id }}" data-authors="{{ book.authors | replace(',', ', ') }}" data-title="{{ book.title }}" data-index="{{loop.index}}">
-                            <header title="{{book.title}}">
-                                <img src="{{ book.cover }}" loading="lazy" alt="{{ book.title }}" class="d-block mx-auto shadow" width="250" height="auto"/>
-                            </header>
-                            <div class="book__body">
-                                <h1 class="h3 text-center my-3">{{ book.title | safe}}</h1>
-                                <ul class="book__meta list-group">
-                                    <li class="list-group-item">
-                                        <label>Authors:</label>
-                                        <span class="fs-6">{{ book.authors | safe }}</span>
-                                    </li>
-                                    {% if book.isbn %}
-                                        <li class="list-group-item">
-                                            <label>ISBN:</label>
-                                            <a href="https://www.goodreads.com/search?q={{ book.isbn }}" target="_blank">{{ book.isbn }}</a>
-                                        </li>
-                                    {% endif %}
-                                    <li class="list-group-item">
-                                        <label>Added On:</label>
-                                        {{ book.added_date }}
-                                    </li>
-                                </ul>
-                                <div class="text-center m-3">
-
-                                    {% if book.formats %}
-                                        <div class="row justify-content-center mb-2">
-                                            {% for format in book.formats %}
-                                                <a class="btn btn-primary text-nowrap col-auto m-1" href="https://drive.google.com/uc?export=download&id={{ format.id }}" target="_blank">
-                                                    {{format.type | upper}}
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewbox="0 0 16 16">
-                                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
-                                                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
-                                                    </svg>
-                                                </a>
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
-
-                                    <div>
-                                        <small>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-dots" viewbox="0 0 16 16">
-                                                <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-                                                <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
-                                            </svg>
-                                            <a href="https://www.goodreads.com/search?q={{ (book.title + ', ' + (book.authors | replace(',', ', ')) ) | urlencode | replace('%20', '+')}}&search_type=books" target="_blank">Search on Goodreads</a>
-                                        </small>
-                                    </div>
-
-                                </div>
-                                {% if book.summary %}
-                                    <div class="book_description border-top pt-3 ">
-                                        <h2 class="h4 d-none">Summary:</h2>
-                                        {{ book.summary | safe }}
-                                    </div>
+                    <article id="book-{{book.id}}" class="book " title="{{book.title}}" data-id="{{ book.id }}" data-authors="{{ book.authors | replace(',', ', ') }}" data-title="{{ book.title }}" data-index="{{loop.index}}">
+                        <header title="{{book.title}}">
+                            <img src="{{ book.cover }}" loading="lazy" alt="{{ book.title }}" class="d-block mx-auto shadow" width="250" height="auto" />
+                        </header>
+                        <div class="book__body">
+                            <h1 class="h3 text-center my-3">{{ book.title | safe}}</h1>
+                            <ul class="book__meta list-group">
+                                <li class="list-group-item">
+                                    <label>Authors:</label>
+                                    <span class="fs-6">{{ book.authors | safe }}</span>
+                                </li>
+                                {% if book.isbn %}
+                                <li class="list-group-item">
+                                    <label>ISBN:</label>
+                                    <a href="https://www.goodreads.com/search?q={{ book.isbn }}" target="_blank">{{ book.isbn }}</a>
+                                </li>
                                 {% endif %}
+                                <li class="list-group-item">
+                                    <label>Added On:</label>
+                                    {{ book.added_date }}
+                                </li>
+                            </ul>
+                            <div class="text-center m-3">
+
+                                {% if book.formats %}
+                                <div class="book-formats row justify-content-center mb-2 d-none">
+                                    {% for format in book.formats %}
+                                    <a class="btn btn-primary text-nowrap col-auto m-1" href="https://drive.google.com/uc?export=download&id={{ format.id }}" target="_blank">
+                                        {{format.type | upper}}
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewbox="0 0 16 16">
+                                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+                                        </svg>
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+
+                                <div>
+                                    <small>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-dots" viewbox="0 0 16 16">
+                                            <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                                            <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                                        </svg>
+                                        <a href="https://www.goodreads.com/search?q={{ (book.title + ', ' + (book.authors | replace(',', ', ')) ) | urlencode | replace('%20', '+')}}&search_type=books" target="_blank">Search on Goodreads</a>
+                                    </small>
+                                </div>
+
                             </div>
-                            <div class="book__table d-none">
-                                <table class="table table-bordered table-sm m-0">
-                                    <tbody>
-                                        <tr>
-                                            <td class="col-cover"><img src="{{ book.cover }}" alt="{{ book.title }}" class="d-block mx-auto shadow" height="48"/></td>
-                                            <td class="col-title">{{book.title | safe }}</td>
-                                            <td class="col-authors">{{book.authors | safe }}</td>
-                                            <td class="col-added-on">{{book.added_date}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            {% if book.summary %}
+                            <div class="book_description border-top pt-3 ">
+                                <h2 class="h4 d-none">Summary:</h2>
+                                {{ book.summary | safe }}
                             </div>
-                        </article>
+                            {% endif %}
+                        </div>
+                        <div class="book__table d-none">
+                            <table class="table table-bordered table-sm m-0">
+                                <tbody>
+                                    <tr>
+                                        <td class="col-cover"><img src="{{ book.cover }}" alt="{{ book.title }}" class="d-block mx-auto shadow" height="48" /></td>
+                                        <td class="col-title">{{book.title | safe }}</td>
+                                        <td class="col-authors">{{book.authors | safe }}</td>
+                                        <td class="col-added-on">{{book.added_date}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </article>
                     {% endfor %}
                 </section>
 
@@ -356,8 +379,8 @@
 
                 <h2 class="h4 py-2 px-3">Book preview
                     <button type="button" class="btn-close fs-6 float-end mt-1" aria-label="Close" data-bs-toggle="collapse" data-bs-target="#book-preview"></button>
-                </h1>
-                <div class="book-preview__content px-3"></div>
+                    </h1>
+                    <div class="book-preview__content px-3"></div>
 
             </aside>
 
@@ -374,9 +397,9 @@
                     <div class="modal-body text-center">
                         <div id="qr-code" class="p-3 bg-white d-inline-block"></div>
                         <p>Share this QR code to acess
-                            <br/><strong>{{catalogTitle | safe}}</strong>
+                            <br /><strong>{{catalogTitle | safe}}</strong>
                             at:
-                            <br/>
+                            <br />
                             <a id="qr-catalog-url" href="" target="_blank"></a>
                         </p>
                     </div>
@@ -387,192 +410,205 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/konami-code-js@0.8.3/src/konami-code.min.js"></script>  
 
         <script>
-            const books = document.querySelectorAll( '.book' );
-            const bookPreview = document.querySelector( '#book-preview' );
-            const bookPreviewConten = document.querySelector( '#book-preview .book-preview__content ' );
+            const books = document.querySelectorAll('.book');
+            const bookPreview = document.querySelector('#book-preview');
+            const bookPreviewConten = document.querySelector('#book-preview .book-preview__content ');
 
-            books.forEach( book => {
-                book.addEventListener( 'click', () => {
-                    bookPreview.classList.add( 'show' );
-                    const bookClone = book.cloneNode( true );
+            books.forEach(book => {
+                book.addEventListener('click', () => {
+                    bookPreview.classList.add('show');
+                    const bookClone = book.cloneNode(true);
                     bookPreviewConten.innerHTML = '';
-                    bookPreviewConten.appendChild( bookClone );
-                } );
-            } );
+                    bookPreviewConten.appendChild(bookClone);
+                });
+            });
 
 
-// Sort books by article data attributes, asc or desc
-            function sortBooks( sortBy = 'title', order = 'desc' ) {
-                const booksList = document.querySelector( '#books-list' );
-                const books = Array.from( booksList.querySelectorAll( '.book' ) );
+            // Sort books by article data attributes, asc or desc
+            function sortBooks(sortBy = 'title', order = 'desc') {
+                const booksList = document.querySelector('#books-list');
+                const books = Array.from(booksList.querySelectorAll('.book'));
 
-                books.sort( ( a, b ) => {
-                    const aData = a.getAttribute( `data-${ sortBy }` );
-                    const bData = b.getAttribute( `data-${ sortBy }` );
+                books.sort((a, b) => {
+                    const aData = a.getAttribute(`data-${sortBy}`);
+                    const bData = b.getAttribute(`data-${sortBy}`);
 
-// For number based comparison
-                    if ( sortBy === 'id' ) {
+                    // For number based comparison
+                    if (sortBy === 'id') {
                         return order === 'asc' ? aData - bData : bData - aData;
                     }
 
-// For text based comparison
-                    return order === 'asc' ? aData.localeCompare( bData ) : bData.localeCompare( aData );
-                } );
+                    // For text based comparison
+                    return order === 'asc' ? aData.localeCompare(bData) : bData.localeCompare(aData);
+                });
 
-                books.forEach( book => booksList.appendChild( book ) );
+                books.forEach(book => booksList.appendChild(book));
             }
 
-/**
-             *  Sort Controls
-             * ****************************
-             */
-// Sort by title
-            const btn_sort_title = document.querySelector( '#sort-title' );
-            btn_sort_title.addEventListener( 'click', ( e ) => {
+            /**
+                         *  Sort Controls
+                         * ****************************
+                         */
+            // Sort by title
+            const btn_sort_title = document.querySelector('#sort-title');
+            btn_sort_title.addEventListener('click', (e) => {
                 // Remove other sort buttons from the class
-                btn_sort_author.classList.remove( 'desc', 'asc' );
-                btn_sort_id.classList.remove( 'desc', 'asc' );
+                btn_sort_author.classList.remove('desc', 'asc');
+                btn_sort_id.classList.remove('desc', 'asc');
 
-                if( !btn_sort_title.classList.contains( 'desc' ) && !btn_sort_title.classList.contains( 'asc' ) ){
-                    btn_sort_title.classList.add( 'asc' ); // Default
-                }else{
-                    btn_sort_title.classList.toggle( 'desc' );
-                    btn_sort_title.classList.toggle( 'asc' );
+                if (!btn_sort_title.classList.contains('desc') && !btn_sort_title.classList.contains('asc')) {
+                    btn_sort_title.classList.add('asc'); // Default
+                } else {
+                    btn_sort_title.classList.toggle('desc');
+                    btn_sort_title.classList.toggle('asc');
                 }
 
-                sortBooks( 'title', btn_sort_title.classList.contains( 'desc' ) ? 'desc' : 'asc' );
-            } );
+                sortBooks('title', btn_sort_title.classList.contains('desc') ? 'desc' : 'asc');
+            });
 
-// Sort by Autors
-            const btn_sort_author = document.querySelector( '#sort-author' );
-            btn_sort_author.addEventListener( 'click', ( e ) => {
+            // Sort by Autors
+            const btn_sort_author = document.querySelector('#sort-author');
+            btn_sort_author.addEventListener('click', (e) => {
                 // Remove other sort buttons from the class
-                btn_sort_title.classList.remove( 'desc', 'asc' );
-                btn_sort_id.classList.remove( 'desc', 'asc' );
-                if ( !btn_sort_author.classList.contains( 'desc' ) && !btn_sort_author.classList.contains( 'asc' ) ) {
-                    btn_sort_author.classList.add( 'asc' ); // Default
-                }else{
-                    btn_sort_author.classList.toggle( 'desc' );
-                    btn_sort_author.classList.toggle( 'asc' );
+                btn_sort_title.classList.remove('desc', 'asc');
+                btn_sort_id.classList.remove('desc', 'asc');
+                if (!btn_sort_author.classList.contains('desc') && !btn_sort_author.classList.contains('asc')) {
+                    btn_sort_author.classList.add('asc'); // Default
+                } else {
+                    btn_sort_author.classList.toggle('desc');
+                    btn_sort_author.classList.toggle('asc');
                 }
-                sortBooks( 'authors', btn_sort_author.classList.contains( 'desc' ) ? 'desc' : 'asc' );
-            } );
+                sortBooks('authors', btn_sort_author.classList.contains('desc') ? 'desc' : 'asc');
+            });
 
-// Sort by date
-            const btn_sort_id = document.querySelector( '#sort-id' );
-            btn_sort_id.addEventListener( 'click', ( e ) => {
+            // Sort by date
+            const btn_sort_id = document.querySelector('#sort-id');
+            btn_sort_id.addEventListener('click', (e) => {
                 // Remove other sort buttons from the class
-                btn_sort_title.classList.remove( 'desc', 'asc' );
-                btn_sort_author.classList.remove( 'desc', 'asc' );
+                btn_sort_title.classList.remove('desc', 'asc');
+                btn_sort_author.classList.remove('desc', 'asc');
 
-                if ( !btn_sort_id.classList.contains( 'desc' ) && !btn_sort_id.classList.contains( 'asc' ) ) {
-                    btn_sort_id.classList.add( 'desc' ); // Add desc by default
-                }else{
-                    btn_sort_id.classList.toggle( 'desc' );
-                    btn_sort_id.classList.toggle( 'asc' );
+                if (!btn_sort_id.classList.contains('desc') && !btn_sort_id.classList.contains('asc')) {
+                    btn_sort_id.classList.add('desc'); // Add desc by default
+                } else {
+                    btn_sort_id.classList.toggle('desc');
+                    btn_sort_id.classList.toggle('asc');
                 }
-                sortBooks( 'id', btn_sort_id.classList.contains( 'desc' ) ? 'desc' : 'asc' );
-            } );
+                sortBooks('id', btn_sort_id.classList.contains('desc') ? 'desc' : 'asc');
+            });
 
             // Reset search and sort settings
-            document.querySelector( '#sort-reset' ).addEventListener( 'click', ( e ) => {
+            document.querySelector('#sort-reset').addEventListener('click', (e) => {
                 // Clear the serch box too
-                document.querySelector( '#search-box input' ).value = '';
+                document.querySelector('#search-box input').value = '';
 
                 // And restore the inline-block to all books
-                books.forEach( book => book.style.display = 'inline-block' );
+                books.forEach(book => book.style.display = 'inline-block');
 
                 // Reset the sort to default
-                btn_sort_id.classList.remove( 'desc', 'asc' );
+                btn_sort_id.classList.remove('desc', 'asc');
                 btn_sort_id.click();
-            } );
+            });
 
 
-/**
-             *  Search box
-             * ****************************
-             */
-            const searchBox = document.querySelector( '#search-box input' );
-            searchBox.addEventListener( 'input', ( e ) => {
+            /**
+                         *  Search box
+                         * ****************************
+                         */
+            const searchBox = document.querySelector('#search-box input');
+            searchBox.addEventListener('input', (e) => {
                 const searchValue = e.target.value.trim().toLowerCase();
-                books.forEach( book => {
-                    const title = book.getAttribute( 'data-title' ).toLowerCase();
-                    const authors = book.getAttribute( 'data-authors' ).toLowerCase();
-                    if ( title.includes( searchValue ) || authors.includes( searchValue ) ) {
+                books.forEach(book => {
+                    const title = book.getAttribute('data-title').toLowerCase();
+                    const authors = book.getAttribute('data-authors').toLowerCase();
+                    if (title.includes(searchValue) || authors.includes(searchValue)) {
                         book.style.display = 'inline-block';
                     } else {
                         book.style.display = 'none';
                     }
-                } );
-            } );
+                });
+            });
 
-/**
-             *  Views Controls
-             * ****************************
-             */
-// Set grid view
-            const btn_viewGrid = document.querySelector( '#viewGrid' );
-            btn_viewGrid.addEventListener( 'click', ( e ) => {
-                document.querySelector( '#books-list' ).classList.remove( '-view-list' );
-            } );
-// Set list view
-            const btn_viewList = document.querySelector( '#viewList' );
-            btn_viewList.addEventListener( 'click', ( e ) => {
-                document.querySelector( '#books-list' ).classList.add( '-view-list' );
-            } );
+            /**
+                         *  Views Controls
+                         * ****************************
+                         */
+            // Set grid view
+            const btn_viewGrid = document.querySelector('#viewGrid');
+            btn_viewGrid.addEventListener('click', (e) => {
+                document.querySelector('#books-list').classList.remove('-view-list');
+            });
+            // Set list view
+            const btn_viewList = document.querySelector('#viewList');
+            btn_viewList.addEventListener('click', (e) => {
+                document.querySelector('#books-list').classList.add('-view-list');
+            });
 
-/**
-             *  Theme selector Control
-             * ****************************
-             */
+            /**
+                         *  Theme selector Control
+                         * ****************************
+                         */
             function updateTheme() {
-                document.body.setAttribute( 'data-bs-theme', document.querySelector( '#themingSwitcher' ).checked ? 'dark' : 'light' );
-// Save the theme preference in a browser cookie that never exipres
+                document.body.setAttribute('data-bs-theme', document.querySelector('#themingSwitcher').checked ? 'dark' : 'light');
+                // Save the theme preference in a browser cookie that never exipres
                 document.cookie = `theme=${
                     document.querySelector( '#themingSwitcher' ).checked ? 'dark' : 'light'
                 }; path=/; max-age=31536000`; // 1 year
             }
-            document.querySelector( '#themingSwitcher' ).addEventListener( 'click', () => {
+            document.querySelector('#themingSwitcher').addEventListener('click', () => {
                 updateTheme();
-            } );
+            });
 
             function loadThemeFromCookie() {
-                const themeCookie = document.cookie.split( '; ' ).find( row => row.startsWith( 'theme=' ) );
-                if ( themeCookie ) {
-                    document.querySelector( '#themingSwitcher' ).checked = themeCookie.split( '=' )[ 1 ] === 'dark';
+                const themeCookie = document.cookie.split('; ').find(row => row.startsWith('theme='));
+                if (themeCookie) {
+                    document.querySelector('#themingSwitcher').checked = themeCookie.split('=')[1] === 'dark';
                     updateTheme();
                 }
             }
 
 
-/**
-             *  QR code generator
-             * ****************************
-             */
+            /**
+                         *  QR code generator
+                         * ****************************
+                         */
             function updateQRLink() { // Get the current page URL and generate a QR code for it
                 var catalog_url = window.location.href;
-                catalog_url = catalog_url.replace( /\/[^\/]+$/, '' );
+                catalog_url = catalog_url.replace(/\/[^\/]+$/, '');
 
-// Update the text link
-                document.querySelector( '#qr-catalog-url' ).textContent = catalog_url;
-                document.querySelector( '#qr-catalog-url' ).href = catalog_url;
+                // Update the text link
+                document.querySelector('#qr-catalog-url').textContent = catalog_url;
+                document.querySelector('#qr-catalog-url').href = catalog_url;
 
-//Update the QR code image
-                const qrCode = new QRCode( 'qr-code', catalog_url );
+                //Update the QR code image
+                const qrCode = new QRCode('qr-code', catalog_url);
             }
 
+            function generateQRCode() {
+                const catalog_url = document.querySelector('#qr-catalog-url').href;
+                const qrCode = new QRCode('qr-code', catalog_url);
+            }
 
-// Initialize the page view
+            // Initialize the page view
             function init() {
                 loadThemeFromCookie();
 
                 updateQRLink();
+
+                new KonamiCode({
+                  callback: function (konamiCode) {
+                    konamiCode.disable();
+                    document.querySelector('body').classList.add('-show-books-formats');
+                  }
+                });
 
             }
 
             init();
         </script>
     </body>
-</html></body></html>
+
+</html>
