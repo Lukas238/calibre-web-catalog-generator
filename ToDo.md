@@ -8,3 +8,5 @@ Add a list of authors.
 Add a list of book tags.
 Add a list of book series.
 Add a list of book languages.
+Add a way to add my personal raiting to books.
+Add a way to addd my book notes to each book.
