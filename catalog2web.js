@@ -165,8 +165,8 @@ async function main() {
         formats: formats,
         series: book.series ? book.series[0]['_'].trim() || false : null,
         series_index: book.series ? parseInt(book.series[0]['$']['index']) || 0 : null,
-        read: book._read ? book._read[0] === 'True' ? true : false : null,
-        rating: book.rating ? parseFloat(book.rating[0]) || 0 : null
+        rating: book.rating ? parseFloat(book.rating[0]) || 0 : null,
+        read: book._read ? book._read[0] === 'True' ? true : false : null
       };
     }));
 

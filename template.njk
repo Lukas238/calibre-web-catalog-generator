@@ -246,6 +246,31 @@
             body.-show-books-formats .book-formats {
                 display: block !important;
             }
+
+            .rating{
+              &.-rating-1:before,
+              &.-rating-2:before,
+              &.-rating-3:before,
+              &.-rating-4:before,
+              &.-rating-5:before{
+                font-family: "bootstrap-icons";
+              }
+              &.-rating-1:before{
+                content: "\F586\F588\F588\F588\F588";
+              }
+              &.-rating-2:before{
+                content: "\F586\F586\F588\F588\F588";
+              }
+              &.-rating-3:before{
+                content: "\F586\F586\F586\F588\F588";
+              }
+              &.-rating-4:before{
+                content: "\F586\F586\F586\F586\F588";
+              }
+              &.-rating-5:before{
+                content: "\F586\F586\F586\F586\F586";
+              }
+            }
         </style>
     </head>
 
@@ -341,9 +366,26 @@
                                             <a href="https://www.goodreads.com/search?q={{ book.isbn }}" target="_blank">{{ book.isbn }}</a>
                                         </li>
                                     {% endif %}
+                                    {% if book.series %}
+                                        <li class="list-group-item">
+                                            <label>Series:</label>
+                                            <span class="fs-6">{{ book.series | safe }}</span> -
+                                            <span class="text-muted">Book #{{ book.series_index }}</span>
+                                        </li>
+                                    {% endif %}
+                                    {% if book.rating %}
+                                        <li class="list-group-item">
+                                            <label>Rating:</label>
+                                            <span class="fs-6 rating -rating-{{ book.rating | safe }} text-warning" title="{{ book.rating | safe }}"><span class="visually-hidden">{{ book.rating | safe }}</span></span>
+                                        </li>
+                                    {% endif %}
                                     <li class="list-group-item">
                                         <label>Added On:</label>
                                         {{ book.added_date }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <label>Read:</label>
+                                        {{ book.read ? 'Yes' : 'No' }}
                                     </li>
                                 </ul>
                                 <div class="text-center m-3">
