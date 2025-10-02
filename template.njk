@@ -464,13 +464,49 @@
                 const currentBookId = bookPreviewConten.querySelector( '.book' ).getAttribute( 'data-id' );
                 const currentBookIndex = Array.from( books ).findIndex( book => book.getAttribute( 'data-id' ) === currentBookId );
                 const prevBookIndex = ( currentBookIndex - 1 + books.length ) % books.length;
-                books[ prevBookIndex ].click();
+
+                // Check if the previous book is visible (not filtered out), if not, keep looking back
+                let foundVisible = false;
+                let searchIndex = prevBookIndex;
+                while ( ! foundVisible ) {
+                    if ( books[ searchIndex ].style.display !== 'none' ) {
+                        foundVisible = true;
+                        books[ searchIndex ].click();
+                    } else {
+                        searchIndex = ( searchIndex - 1 + books.length ) % books.length;
+                        if ( searchIndex === currentBookIndex ) {
+                            // We've looped through all books and found none visible
+                            break;
+                        }
+                    }
+                }
+
+
             } );
             document.querySelector( '#loadNextBook' ).addEventListener( 'click', () => {
                 const currentBookId = bookPreviewConten.querySelector( '.book' ).getAttribute( 'data-id' );
                 const currentBookIndex = Array.from( books ).findIndex( book => book.getAttribute( 'data-id' ) === currentBookId );
                 const nextBookIndex = ( currentBookIndex + 1 ) % books.length;
-                books[ nextBookIndex ].click();
+                // Check if the next book is visible (not filtered out), if not, keep looking forward
+
+                let foundVisible = false;
+                let searchIndex = nextBookIndex;
+
+                while ( ! foundVisible ) {
+
+                    if ( books[ searchIndex ].style.display !== 'none' ) {
+                        foundVisible = true;
+                        books[ searchIndex ].click();
+                    } else {
+                        searchIndex = ( searchIndex + 1 ) % books.length;
+                        if ( searchIndex === currentBookIndex ) {
+                            // We've looped through all books and found none visible
+                            break;
+                        }
+                    }
+                }
+
+
             } );
 
 
