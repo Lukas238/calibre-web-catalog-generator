@@ -147,7 +147,6 @@ async function main() {
 
       const summary = await cleanBookSummary(book.comments && book.comments[0]);
 
-
       return {
         id: book.id[0],
         title: book.title[0]['_'], // The book title
@@ -166,7 +165,7 @@ async function main() {
         series: book.series ? book.series[0]['_'].trim() || false : null,
         series_index: book.series ? parseInt(book.series[0]['$']['index']) || 0 : null,
         rating: book.rating ? parseFloat(book.rating[0]) || 0 : null,
-        read: book._read ? book._read[0] === 'True' ? true : false : null
+        read: book._read ? book._read[0] === 'True' ? true : false : false
       };
     }));
 
