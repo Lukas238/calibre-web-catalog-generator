@@ -385,7 +385,11 @@
                                     </li>
                                     <li class="list-group-item">
                                         <label>Read:</label>
-                                        {{ book.read ? 'Yes' : 'No' }}
+                                        {% if book.read %}
+                                            <i class="bi bi-check-lg text-success" title="Read"></i>
+                                        {% else %}
+                                            <i class="bi bi-x-lg text-danger" title="Not Read"></i>
+                                        {% endif %}
                                     </li>
                                 </ul>
                                 <div class="text-center m-3">
