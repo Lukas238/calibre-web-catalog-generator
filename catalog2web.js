@@ -147,9 +147,11 @@ async function main() {
 
       const summary = await cleanBookSummary(book.comments && book.comments[0]);
 
+
       return {
         id: book.id[0],
-        title: book.title[0]['_'],
+        title: book.title[0]['_'], // The book title
+        title_sort:book.title[0]['$']['sort'], // The book title for sorting
         authors: book.authors.map(item => item.author).join(', '),
         // language: book.languages && book.languages[0],
         cover: cover,
@@ -160,7 +162,11 @@ async function main() {
         // links: buildLinks(book.identifiers && book.identifiers[0], book.title[0])
         added_date: (book.timestamp && book.timestamp[0]).slice(0, 10), // This is a date string
         added_timestamp: Date.parse(book.timestamp && book.timestamp[0]), // This is a propper timestamp
-        formats: formats
+        formats: formats,
+        series: book.series ? book.series[0]['_'].trim() || false : null,
+        series_index: book.series ? parseInt(book.series[0]['$']['index']) || 0 : null,
+        read: book._read ? book._read[0] === 'True' ? true : false : null,
+        rating: book.rating ? parseFloat(book.rating[0]) || 0 : null
       };
     }));
 
