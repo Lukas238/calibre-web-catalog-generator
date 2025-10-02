@@ -4,8 +4,6 @@ const path = require('path');
 const xml2js = require('xml2js');
 const nunjucks = require('nunjucks');
 const fs = require('fs-extra');
-const { get } = require('http');
-
 const sharp = require('sharp');
 
 
